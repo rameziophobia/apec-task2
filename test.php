@@ -6,7 +6,7 @@ function question_showcase($question, $answers, $number) {
     echo '<div class="container mt-4">';
     echo '<div class="form-group ">';
     echo '<div class="row">';
-    echo '<h4 style="color: white;">'.$number.' '.$question.'</h4>';
+    echo '<h4 style="color: white;">'.'Q'.$number.'. '.$question.'</h4>';
     echo '</div>';
     echo '<div class="row d-flex justify-content-around mt-3">';
     for($i = 0; $i < 4; $i++) {
