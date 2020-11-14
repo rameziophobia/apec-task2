@@ -44,6 +44,7 @@ $sq1 = "CREATE TABLE 'StudentScores' if not exists (
     student_email VARCHAR(320) NOT NULL,
     student_number VARCHAR(11) NOT NULL,
     student_score INT,
+    hasEnteredExam BOOLEAN,
     PRIMARY KEY (student_id)
     )";
 if ($conn->query($sql) === TRUE) {
@@ -56,7 +57,7 @@ foreach($questions as $ques) {
     $answer1 = $ques->choices[0];$answer2 = $ques->choices[1];$answer3 = $ques->choices[2];$answer4 = $ques->choices[3];
     $sql = "INSERT INTO ExamQuestions (question, choice1, choice2, choice3, choice4)
     VALUES ('$ques->question' ,
-    '$answer1' , '$answer2', '$answer3', '$answer4')";  
+    '$answer1' , '$answer2', '$answer3', '$answer4')";
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {

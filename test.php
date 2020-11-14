@@ -30,6 +30,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "apec2020";
+define("QUESTIONS_COUNT", 10);
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -41,6 +42,7 @@ if (!$conn) {
 $sql = "SELECT * FROM ExamQuestions";
 $result = mysqli_query($conn, $sql);
 $questionList = array();
+$answerList = array();
 if (mysqli_num_rows($result) > 0) {
     // output data of each row
     while($row = mysqli_fetch_assoc($result)) {
@@ -49,8 +51,48 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 shuffle($questionList);
-for($x = 0; $x < 10; $x++) {
+// array_slice($questionList, 0, 10);
+for($x = 0; $x < QUESTIONS_COUNT; $x++) {
     question_showcase($questionList[$x]->question, $questionList[$x]->choices, $x+1);
+    array_push($answerList, $questionList[$x]->choices[0]);
 }
+
+function checkAnswers($userAnswers) : int {
+    $score = 0;
+    for($x = 0; $x < QUESTIONS_COUNT; $x++) {
+        if($userAnswers[0] === $answerList[0]) {
+            $score += 1;
+        }
+    }
+    return $score;
+}
+
+function updateStudentExamEntryStatus($email) {
+    $sql = 'UPDATE StudentScores SET hasEnteredExam=true WHERE student_email="'.$email.'"';
+
+    if ($conn->query($sql) === TRUE) {
+        echo '<script>'."console.log('student Record updated successfully')" . '</script>';
+    } else {
+        echo '<script>'."console.log('"."Error updating record: " . $conn->error.')"' . '</script>';
+    }
+}
+
+function isUserValid($email) {
+    $sql = 'SELECT * FROM StudentScores WHERE student_email="'.$email.'"';
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        if($row["hasEnteredExam"] === true) {
+            return false; // todo return msg user already entered exam?
+        } else {
+            updateStudentExamEntryStatus($email);
+            return true;
+        }
+    } else {
+        return false; // todo return msg user email not in database?
+    }
+}
+
+
 //include "bottom.php";
 ?>
