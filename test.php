@@ -11,12 +11,12 @@ function question_showcase($question, $answers, $number) {
     echo '<div class="row d-flex justify-content-around mt-3">';
     for($i = 0; $i < 4; $i++) {
         echo '<div class="form-check">';
-        echo '<input class="form-check-input" type="radio" name="exampleRadios';
+        echo '<input class="form-check-input" type="radio" name="radioGroup'.$number.'"';
         echo ($i+1);
         echo '" id="exampleRadios2"';
         echo 'value="';
         echo $answers[i] , '">';
-        echo '<label class="form-check-label" for="exampleRadios';
+        echo '<label class="form-check-label" for="radioGroup'.$number.'"';
         echo ($i+1) , '">';
         echo $answers[$i],'</label>';
         echo '</div>';
