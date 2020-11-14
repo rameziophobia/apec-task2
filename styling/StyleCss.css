@@ -1,0 +1,78 @@
+
+.rotating{
+	animation: rotation 10s infinite linear;
+}
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+.col-12{
+	margin-top: 20px;
+	text-align: center;
+}
+#error input:focus:required:invalid{
+	border:2px solid red;
+}
+.error input:required:valid{
+	border:2px solid red;
+}
+
+html{
+    min-height: 100%;
+    position:relative;
+}
+body {
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(black, rgb(139,0,0));
+}
+label
+{
+    color: white;
+}
+
+.form-control
+{
+    background-color: transparent !important;
+}
+
+.form-group input:focus
+{
+    color: white;
+}
+.form-group input
+{
+    color: white;
+}
+
+.center
+{
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 5%;
+    margin-bottom: 2.5%;
+    border: white 1px solid;
+    padding: 5% 10%;
+    border-radius: 20px;
+    background-color: rgba(165, 162, 162, 0.4);
+}
+.btn
+{
+    color:white;
+}
+.red
+{
+    background-color: rgb(139,0,0);
+    padding: 1%;
+}
+
+.center2
+{
+
+    margin: auto;
+    margin-bottom: 5%;
+}
