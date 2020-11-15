@@ -15,14 +15,14 @@ $sql = "CREATE DATABASE 'APEC2020'";
 if ($conn->query($sql) === TRUE) {
     echo "Database created successfully";
 } else {
-    echo "Error creating database: " . $conn->error;
+    // echo "Error creating database: " . $conn->error;
 }
 //Connect To database
 $conn = mysqli_connect($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-//Create Table 1
+// Create Table 1
 $sql = "CREATE TABLE 'ExamQuestions'(
     'question_number' INT UNSIGNED AUTO_INCREMENT,
     'question' VARCHAR(256) NOT NULL,
@@ -44,7 +44,8 @@ $sql = "CREATE TABLE StudentScores (
     student_email VARCHAR(256) NOT NULL,
     student_score INT,
     student_number VARCHAR(11) NOT NULL,
-    hasEnteredExam BOOLEAN
+    hasEnteredExam BOOLEAN,
+    hasSubmittedAnswers BOOLEAN
     )";
 if ($conn->query($sql) === TRUE) {
     echo "Table StudentScores created successfully";

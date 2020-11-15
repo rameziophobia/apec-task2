@@ -33,7 +33,14 @@
 							echo $name_of_radio_button;
 							array_push($userAnswers, $name_of_radio_button);
 						}
-						echo "score is".checkAnswers($userAnswers);
+						try {
+							updateStudentExamScore($userAnswers);
+						  } catch (Exception $e) {
+							  // if user already submitted
+							  // todo make this nicer
+							echo '<script>alert('.'"'.$e->getMessage().'"'.');</script>';
+						  }
+						
 					}
 				?>
   </div>

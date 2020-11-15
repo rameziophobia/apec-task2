@@ -46,6 +46,9 @@ $password = "";
 function getQuestions() {
     $_SESSION['answerlist'] = array();
     $conn = connectToDB();
+    if(userAlreadySubmitted($conn)) {
+        throw new Exception('user has already submitted answers');
+    }
     $sql = "SELECT * FROM ExamQuestions";
     $result = mysqli_query($conn, $sql);
     $questionList = array();
@@ -85,9 +88,27 @@ function updateStudentExamEntryStatus($email, $conn) {
     }
 }
 
-function updateStudentExamScore($email) {
+function userAlreadySubmitted($conn) {
+    $sql = 'SELECT * FROM StudentScores WHERE student_email="'.$_SESSION['Email'].'"';
+    $result = mysqli_query($conn, $sql);
+    if($result == true) {
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            return $row["hasSubmittedAnswers"] == true;
+        }
+    }
+    return false;
+}
+
+function updateStudentExamScore($userAnswers) {
     $conn = connectToDB();
-    $sql = 'UPDATE StudentScores SET student_score=true WHERE student_email="'.$email.'"';
+    $score = checkAnswers($userAnswers);
+    if(userAlreadySubmitted($conn)) {
+        throw new Exception('user has already submitted answers');
+    }
+    $sql = 'UPDATE StudentScores SET student_score='.$score.
+            ', `hasSubmittedAnswers` = 1'.
+            ' WHERE student_email="'.$_SESSION['Email'].'"';
 
     if ($conn->query($sql) === TRUE) {
         echo '<script>'."console.log('student Record updated successfully')" . '</script>';
