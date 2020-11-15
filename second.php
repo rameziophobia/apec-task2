@@ -20,7 +20,7 @@
 		 <!--Second Page Start-->
 <div class="container" id="page2">
 		<div class="center">
-				<form method="post" id="secondForm" action="<?php echo $_SERVER['PHP_SELF'];?>">
+				<form method="post" id="secondForm" action="last.php">
 						<div class="d-flex center2">
 								<h3 style="color: white;" class="mr-3">Time Left:</h3>
 								<h3 id="counter" style="color: white;"></h3>

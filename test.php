@@ -1,6 +1,8 @@
 <?php
 //include "top.php";
 include "question.php";
+define("QUESTIONS_COUNT", 3);
+session_start();
 function question_showcase($question, $answers, $number) {
     shuffle($answers);
     echo '<div class="container mt-4">';
@@ -31,7 +33,6 @@ function connectToDB() {
     $username = "root";
 $password = "";
     $dbname = "apec2020";
-    define("QUESTIONS_COUNT", 3);
 
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -42,14 +43,12 @@ $password = "";
     return $conn;
 }
 
-$answerList = array();
 function getQuestions() {
+    $_SESSION['answerlist'] = array();
     $conn = connectToDB();
     $sql = "SELECT * FROM ExamQuestions";
     $result = mysqli_query($conn, $sql);
     $questionList = array();
-    global $answerList;
-    $answerList = array();
     if (mysqli_num_rows($result) > 0) {
         // output data of each row
         while($row = mysqli_fetch_assoc($result)) {
@@ -58,32 +57,19 @@ function getQuestions() {
     }
 
     shuffle($questionList);
-    // array_slice($questionList, 0, 10);
     for($x = 0; $x < QUESTIONS_COUNT; $x++) {
         question_showcase($questionList[$x]->question, $questionList[$x]->choices, $x+1);
-        array_push($answerList, $questionList[$x]->choices[0]);
-        echo "<br>";
-        echo "pushed to ans";
-        echo $questionList[$x]->choices[0];
-        echo $answerList[$x];
+        array_push($_SESSION['answerlist'], $questionList[$x]->choices[0]);
     }
+    
 }
 
 function checkAnswers($userAnswers) : int {
-    global $answerList;
     $score = 0;
+    //var_dump($_SESSION['answerlist']);
     for($x = 0; $x < QUESTIONS_COUNT; $x++) {
-        if($userAnswers[$x] === $answerList[$x]) {
+        if($userAnswers[$x] === $_SESSION['answerlist'][$x]) {
             $score += 1;
-            echo "<br>";
-            echo "true";
-            echo $userAnswers[$x];
-            echo $answerList[$x];
-        }else{
-            echo "<br>";
-            echo "false";
-            echo $userAnswers[$x];
-            echo $answerList[$x];
         }
     }
     return $score;
