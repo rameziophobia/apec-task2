@@ -11,7 +11,7 @@ if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
 // Create database
-$sql = "CREATE DATABASE 'APEC2020' if not exists";
+$sql = "CREATE DATABASE 'APEC2020'";
 if ($conn->query($sql) === TRUE) {
     echo "Database created successfully";
 } else {
@@ -23,7 +23,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 //Create Table 1
-$sql = "CREATE TABLE 'ExamQuestions' if not exists(
+$sql = "CREATE TABLE 'ExamQuestions'(
     'question_number' INT UNSIGNED AUTO_INCREMENT,
     'question' VARCHAR(256) NOT NULL,
     'choice1' VARCHAR(128) NOT NULL,
@@ -37,15 +37,14 @@ if ($conn->query($sql) === TRUE) {
 } else {
     echo "Error creating table: " . $conn->error;
 }
-//Create Table 2
-$sq1 = "CREATE TABLE 'StudentScores' if not exists (
-    student_id INT UNSIGNED AUTO_INCREMENT,
-    studnt_name VARCHAR(256) NOT NULL,
-    student_email VARCHAR(320) NOT NULL,
-    student_number VARCHAR(11) NOT NULL,
+// Create Table 2
+$sql = "CREATE TABLE StudentScores (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(256) NOT NULL,
+    student_email VARCHAR(256) NOT NULL,
     student_score INT,
-    hasEnteredExam BOOLEAN,
-    PRIMARY KEY (student_id)
+    student_number VARCHAR(11) NOT NULL,
+    hasEnteredExam BOOLEAN
     )";
 if ($conn->query($sql) === TRUE) {
     echo "Table StudentScores created successfully";
