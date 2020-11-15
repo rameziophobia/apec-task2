@@ -45,26 +45,25 @@
                   <script type="text/javascript">
                     $(document).ready(function() {
                         $("#firstForm").submit(function(event){
-                            console.log("fhi");
-                            //event.preventDefault();
-                            //if(isUserValid === "false") {event.preventDefault();};
-                            if(condition() == false) {event.preventDefault();};
-                        });
+                            if(condition() == false) {
+                              event.preventDefault();
+                            }
+                        })
                     });
-                    </script>
-                    <?php
+                  </script>
+                  <?php
                       include "test.php";
-                      if ($_SERVER["REQUEST_METHOD"] == "POST") { 
-                        if(isUserValid($_POST['mail']))
-                        {
-                          header("Location: second.php");
-                          exit();
-                        }
-                        else {
-                          echo "<script>alert('User isn't Registered')</script>";
+                      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        try {
+                          if(isUserValid($_POST['mail'])) {
+                            header("Location: second.php");
+                            exit();
+                          }
+                        } catch (Exception $e) {
+                          echo '<script>alert('.'"'.$e->getMessage().'"'.');</script>';
                         }
                       }
-                    ?>
+                  ?>
                       <button type="submit" class="btn" onsubmit="return condition()" id="next-btn">Next</button>
                       <script type="text/javascript">
                       function ValidateEmail(inputText)

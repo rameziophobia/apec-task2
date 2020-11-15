@@ -75,7 +75,7 @@ function checkAnswers($userAnswers) : int {
     return $score;
 }
 
-function updateStudentExamEntryStatus($email) {
+function updateStudentExamEntryStatus($email, $conn) {
     $sql = 'UPDATE StudentScores SET hasEnteredExam=true WHERE student_email="'.$email.'"';
 
     if ($conn->query($sql) === TRUE) {
@@ -86,6 +86,7 @@ function updateStudentExamEntryStatus($email) {
 }
 
 function updateStudentExamScore($email) {
+    $conn = connectToDB();
     $sql = 'UPDATE StudentScores SET student_score=true WHERE student_email="'.$email.'"';
 
     if ($conn->query($sql) === TRUE) {
@@ -96,20 +97,23 @@ function updateStudentExamScore($email) {
 }
 
 function isUserValid($email) {
+    $conn = connectToDB();
     $sql = 'SELECT * FROM StudentScores WHERE student_email="'.$email.'"';
     $result = mysqli_query($conn, $sql);
     if($result == true) {
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
-            if($row["hasEnteredExam"] === true) {
-                return false; // todo return msg user already entered exam?
+            if($row["hasEnteredExam"] == true) {
+                throw new Exception('user already entered Exam');
+                return false;
             } else {
-                updateStudentExamEntryStatus($email);
+                updateStudentExamEntryStatus($email, $conn);
                 $_SESSION['Email'] = $email;
                 return true;
             }
         } else {
-            return false; // todo return msg user email not in database?
+            throw new Exception('user email not registered');
+            return false;
         }
     }
 }
