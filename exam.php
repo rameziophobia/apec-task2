@@ -1,5 +1,5 @@
 <?php
-include "index.php";
+include "readCsvFile.php";
 $servername = "localhost";
 $username = "root";
 $password = "";
